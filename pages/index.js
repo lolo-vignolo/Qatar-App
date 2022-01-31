@@ -1,23 +1,32 @@
-import Head from 'next/head'
-
-import AppLayout from '../components/AppLayout'
-import Button from '../components/Button'
-import GitHubIcon from '../components/Icons/GitHubIcon'
-import { logingWithFacebook } from '../firebase/client'
-import { colors } from '../styles/Theme'
+import Head from "next/head";
+import { useEffect } from "react";
 
 
-
+import Button from "components/Button";
+import GitHubIcon from "components/Icons/GitHubIcon";
+import { logingWithFacebook } from "../firebase/client";
+import { colors } from "styles/Theme";
+import { useRouter } from "next/router";
+import useUser, { USER_STATES } from "components/hooks/useUser";
 
 export default function Home() {
+  const userInfo = useUser(); //me devuelve el userInfo
 
-  const handleLoginClick =() =>{
-    logingWithFacebook().then(user=>{
-      console.log(user);
-    }).catch(error =>{
+  // tres estados undefined (espera para ver si estoy loged o no), null (logout), logeado (userInfo)
+
+  const router = useRouter();
+
+  useEffect(() => {
+    userInfo && router.replace("/Home");
+  }, [userInfo]);
+
+  const handleLoginClick = () => {
+    //esta promesa la devuelve en el useEffect del useUser hook
+    logingWithFacebook().catch((error) => {
       console.log(error);
-    })
-  }
+    });
+  };
+
   return (
     <>
       <Head>
@@ -26,63 +35,56 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+     
+        <section>
+          <img src="/football.png.png" alt="webSite logo" />
 
-      <AppLayout>
-                        
-                <section>
+          <h1> Next-Football </h1>
+          <h2>Waiting for Qatar ⚽</h2>
+          <div>
+            {userInfo === USER_STATES.NOT_LOGGED && (
+              <Button onClick={handleLoginClick}>
+                <GitHubIcon fill="white" width={27} height={27} />
+                Loging with Google
+              </Button>
+            )}
+            {userInfo === USER_STATES.NOT_KNOW && <img src="/spinners.gif" />}
+          </div>
+        </section>
+     
 
-                    <img src='/football.png.png' alt='webSite logo' />
-
-                    <h1> Next-Football </h1>
-                    <h2>Waiting for Qatar ⚽</h2>
-                    <div>
-                      <Button onClick={handleLoginClick}>
-                          <GitHubIcon fill="white" width={27} height={27}/>
-                          Loging with Facebook
-                      </Button>
-                    </div>
-
-                  
-                </section>
-
-      </AppLayout>
-
-      <style jsx>{`
-
-          section{
+      <style jsx>
+        {`
+          section {
             display: grid;
+
             place-content: center;
-            place-items:center;
-            height:100%
+            place-items: center;
+            height: 100%;
           }
 
-          div{
-            margin:0.8rem
+          div {
+            margin: 0.8rem;
           }
 
           img {
             width: 7.5em;
           }
 
-          h1{
-            color:${colors.primary};
+          h1 {
+            color: ${colors.primary};
             font-size: 2rem;
-            font-weight:800;
-            margin-bottom: 0.1rem
-
+            font-weight: 800;
+            margin-bottom: 0.1rem;
           }
 
-          h2{
-            color:${colors.secundary};
+          h2 {
+            color: ${colors.secundary};
             font-size: 1.5rem;
-            margin-bottom: 0.2rem
+            margin-bottom: 0.2rem;
           }
-      `}
+        `}
       </style>
-    
-         
-        
-       
     </>
-  )
+  );
 }

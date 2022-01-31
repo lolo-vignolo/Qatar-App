@@ -1,23 +1,19 @@
-import styles, { globalStyle } from "./styles"
+import styles, { globalStyle } from "./styles";
 
-
-
-
-export default function AppLayout ({children}) {
-
-    return(
+export default function AppLayout({ children }) {
+  return (
     <>
-        <div>
-            <main>
-                {children}
-            </main>
-            
-        </div>
+      <div>
+        <main>{children}</main>
+      </div>
 
-        <style jsx>{styles}</style>
+      {/* este style es el estilo de lo de arriba */}
 
-        <style jsx global>{globalStyle}</style>  
+      <style jsx>{styles}</style>
+
+      <style jsx global>
+        {globalStyle}
+      </style>
     </>
-
-    )
+  );
 }
