@@ -36,7 +36,7 @@ const DRAG_AND_DROP = {
 
 
 
-export default function composeComment() {
+export default function ComposeComment() {
 
 
   const userInfo = useUser(); // devuelve la info del usuario
