@@ -4,7 +4,7 @@
     avatar: photoURL, 
  */
     
-    import 'firebase/compat/storage';  
+import 'firebase/compat/storage';  
 
 
 import Button from "components/Button";
@@ -40,7 +40,7 @@ export default function composeComment() {
 
 
   const userInfo = useUser(); // devuelve la info del usuario
-  console.log(`info del usuario ${userInfo}`);
+  
 
 // estados texto 
   const [message, setMessage] = useState("");
@@ -65,7 +65,7 @@ useEffect(() => {
     const onProgress = () => {}
     const onError = () => {}
     const onComplete = () => {
-        console.log("onComplete")
+        
         task.snapshot.ref.getDownloadURL().then(setImgURL) //esta promesa me da el url por eso de esta forma llamo directamente al setImg y lo coloco en el useState
 
     }
@@ -81,7 +81,7 @@ useEffect(() => {
   const handleChange = (event) => {
     const { value } = event.target;
     setMessage(value);
-    console.log(value);
+   
   };
 
   const handleForm = (event) => {
@@ -145,7 +145,7 @@ useEffect(() => {
        
         <form onSubmit={handleForm}>
             <textarea
-              placeholder="What´s on your mind?"
+              placeholder="What´s on your mind?. Drag and drop a picture if you wish!"
               value={message}
               onChange={handleChange}
               onDragEnter={handleDragEnter}

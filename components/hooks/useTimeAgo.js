@@ -8,6 +8,8 @@ const DATE_UNIT = [
   ["second", 1],
 ];
 
+
+
 const getDataDiff = (timestap) => {
   const now = Date.now();
   const elapsed = (now - timestap) / 1000;
@@ -33,7 +35,7 @@ export default function useTimeAgo(timestap) {
   }, [timestap]);
 
   const { value, unit } = timeInterval;
-  console.log(value, unit);
+  
 
   const relativeTime = new Intl.RelativeTimeFormat("en", {
     style: "short",

@@ -13,28 +13,38 @@
 
 import Devit from "components/Devit";
 import useUser from "components/hooks/useUser";
-import { fetchLastestComments } from "../../firebase/client";
+import { listenLastComment} from "../../firebase/client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Create from "components/Icons/Create";
 import Home from "components/Icons/Home";
 import Search from "components/Icons/Search";
 import Head from "next/head";
+import BtnLogout from "components/btnLogout/BtnLogout";
 
 export default function HomePage() {
   const [timeline, setTimeline] = useState([]);
-
+  
   // debo llamarlo para ver si el usuario está autentificado
   //sino no controla y por mas que elimine mis datos del histoy sigue mostrandome el home
 
   const userInfo = useUser();
+  
 
   useEffect(() => {
-    userInfo &&
-      fetchLastestComments()
+    let unsuscribe = false
+    if(userInfo){
+      unsuscribe = listenLastComment(setTimeline)
+    }
+    // ahora ussuscribre es true
+
+    return () => unsuscribe && unsuscribe() //method de onSnapshot para unscribre(para evitar actualizar estados en componente desmontado)
+
         //esta promesa es la misma que defino en client, pero debo usarla para rcibir la info, esa info la paso al setTimeline
-        .then(setTimeline);
-  }, [userInfo]);
+        //.then(setTimeline);
+  }, [userInfo])
+
+
 
   return (
     <>
@@ -43,11 +53,16 @@ export default function HomePage() {
           <title>Inicio / Home</title>
         </Head>
         <header>
+       
           <h2>Inicio</h2>
+          <BtnLogout />
+               
+          
         </header>
         <section>
-          {timeline.map((devit) => {
-            return (
+
+          {timeline.length > 0 ?
+          timeline.map((devit) => 
               <Devit
                 key={devit.id}
                 id={devit.id}
@@ -58,9 +73,8 @@ export default function HomePage() {
                 userId={devit.userId}
                 createdAt={devit.createdAt}
                 img= {devit.img}
-              />
-            );
-          })}
+              /> 
+          ):null}
         </section>
 
         <nav>
@@ -68,11 +82,6 @@ export default function HomePage() {
           <Link href="/Home">
             <a>
               <Home width={32} height={32} stroke="#1572A1" />
-            </a>
-          </Link>
-          <Link href="/">
-            <a>
-              <Search width={32} height={32} stroke="#1572A1" />
             </a>
           </Link>
           <Link href="/compose/comment">
@@ -95,6 +104,7 @@ export default function HomePage() {
             top: 0;
             width: 100%;
             display: flex;
+            justify-content:space-between
           }
 
           section {
@@ -146,4 +156,6 @@ export default function HomePage() {
       </style>
     </>
   );
+
+
 }

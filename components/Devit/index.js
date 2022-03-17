@@ -1,12 +1,27 @@
 import Avatar from "components/Avatar";
+
 import useTimeAgo from "components/hooks/useTimeAgo";
 
-export default function Devit({ avatar, username, id, content, createdAt , img }) {
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+
+export default function Devit({ userCreator, userId, avatar, username, content, id, createdAt , img }) {
   const timeAgo = useTimeAgo(createdAt); // es un custom hookque me devuelve el tiempo
+
+  const router = useRouter()
+  
+
+  //este router ("NAVEGACIÓN PROGRAMATICA") hace un push agregando un secmento al URL, y navegando a alli. Funciona como el Link 
+  const handleArtClick = (event) => {
+    event.preventDefault()
+    router.push(`/status/${id}`)
+  }
+
 
   return (
     <>
-      <article>
+      <article onClick={handleArtClick}>
         <div>
           <Avatar src={avatar} alt={username} />
         </div>
@@ -14,7 +29,14 @@ export default function Devit({ avatar, username, id, content, createdAt , img }
           <header>
             <strong>{username} </strong>
             <strong> . </strong>
-            <time>{timeAgo}</time>
+              {/*ese id es el que importo, viene con las props, es del mismo objeto */}
+            <Link href={`/status/${id}`}>
+              <a>
+              <time>{timeAgo}</time> 
+              </a>
+             
+            </Link>
+            
           </header>
           <p>{content}</p>
           {img && <img src= {img} />}
@@ -27,6 +49,23 @@ export default function Devit({ avatar, username, id, content, createdAt , img }
             border-bottom: 1.5px solid #eee;
             display: flex;
             padding: 10px 15px;
+          }
+
+          article:hover{
+            cursor:pointer;
+            background: #e9eef2;
+
+          }
+
+          a {
+            color: #555;
+            font-size: 14px;
+            text-decoration: none;
+          }
+
+          a:hover{
+            color:#5800FF;
+            text-decoration:underline
           }
 
           div {
@@ -45,9 +84,12 @@ export default function Devit({ avatar, username, id, content, createdAt , img }
             margin: 0;
           }
 
-          date {
+          time {
             color: #555;
             font-size: 12px;
+          }
+          time:hover{
+            color:#5800FF;
           }
         `}
       </style>
