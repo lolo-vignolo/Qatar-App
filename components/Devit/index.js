@@ -37,6 +37,7 @@ export default function Devit({ userCreator, userId, avatar, username, content, 
              
             </Link>
             
+            
           </header>
           <p>{content}</p>
           {img && <img src= {img} />}
