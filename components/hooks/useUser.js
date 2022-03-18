@@ -17,9 +17,14 @@ export default function useUser() {
   }, []);
 
   useEffect(() => {
-    userInfo === USER_STATES.NOT_LOGGED && router.push("/");
-  }, [userInfo]);
+    const setUserInfo = () =>{
+      userInfo === USER_STATES.NOT_LOGGED && router.push("/");
+    }
+    setUserInfo()
 
+  }, [userInfo, router]);
+
+  
   return userInfo;
 }
 
