@@ -18,7 +18,7 @@ export default function Home() {
 
   useEffect(() => {
     userInfo && router.replace("/Home");
-  }, [userInfo, router]);
+  }, [userInfo]);
 
   const handleLoginClick = () => {
     //esta promesa la devuelve en el useEffect del useUser hook

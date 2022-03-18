@@ -22,7 +22,7 @@ export default function useUser() {
     }
     setUserInfo()
 
-  }, [userInfo, router]);
+  }, [userInfo]);
 
   
   return userInfo;

@@ -2,7 +2,7 @@
 
 import {firestore} from "../../../firebase/admin.js";
 
-export default (req, res) => {
+export default function dinamic (req, res)  {
     const {query} = req
     const {id} = query
 
@@ -28,3 +28,4 @@ export default (req, res) => {
     })
     .catch(() =>{res.status(404).end()})
 }
+
