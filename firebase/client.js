@@ -8,6 +8,7 @@ import 'firebase/compat/storage';
 const firebaseConfig = {
   apiKey: "AIzaSyDyvBPeeZs28YLZDwqagRygQYEnLYZU6B8",
   authDomain: "qatar-app-3478a.firebaseapp.com",
+  authDomain:"mail-demo-fcm.firebaseapp.com",
   projectId: "qatar-app-3478a",
   storageBucket: "qatar-app-3478a.appspot.com",
   messagingSenderId: "551734793641",
